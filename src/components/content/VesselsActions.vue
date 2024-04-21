@@ -6,11 +6,13 @@
     <div class="row justify-center q-gutter-xl">
       <q-btn
         outline
+        no-caps
         color="primary"
         label="Старт"
       />
       <q-btn
         outline
+        no-caps
         color="primary"
         label="Стоп"
       />
@@ -18,14 +20,16 @@
     <div class="row justify-center q-my-md q-gutter-xl">
       <q-btn
         outline
+        no-caps
         color="primary"
         label="Подготовить"
         @click="isPrepare = true"
       />
       <q-btn
         outline
+        no-caps
         color="primary"
-        label="Редактироать"
+        label="Редактировать"
       />
     </div>
   </div>

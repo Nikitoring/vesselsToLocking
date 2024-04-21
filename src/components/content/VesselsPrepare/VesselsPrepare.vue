@@ -3,66 +3,27 @@
     <q-dialog
       v-model="isReady"
       persistent
-      :maximized="maximizedToggle"
       transition-show="slide-up"
       transition-hide="slide-down"
+      backdrop-filter="blur(4px) saturate(150%)"
     >
-      <q-card>
-        <q-bar>
-          <q-space />
-
-          <q-btn
-            dense
-            flat
-            icon="minimize"
-            @click="maximizedToggle = false"
-            :disable="!maximizedToggle"
-          >
-            <q-tooltip
-              v-if="maximizedToggle"
-              class="bg-white text-primary"
-              >Minimize</q-tooltip
-            >
-          </q-btn>
-          <q-btn
-            dense
-            flat
-            icon="crop_square"
-            @click="maximizedToggle = true"
-            :disable="maximizedToggle"
-          >
-            <q-tooltip
-              v-if="!maximizedToggle"
-              class="bg-white text-primary"
-              >Maximize</q-tooltip
-            >
-          </q-btn>
-          <q-btn
-            dense
-            flat
-            icon="close"
-            v-close-popup
-          >
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
-        </q-bar>
-
-        <q-card-section>
+      <q-card style="width: 900px; max-width: 80vw">
+        <q-card-section class="row items-center">
           <div
+            class="text-h5 col-11"
             style="text-align: center"
-            class="text-h6"
           >
             {{ props.lockName }}
           </div>
-          <div style="max-width: 200px; margin: 0 auto">
-            <q-select
-              outlined
-              v-model="direction"
-              :options="directionOptions"
-              :dense="true"
-              :options-dense="true"
-            />
-          </div>
+          <!-- <q-space /> -->
+          <q-btn
+            class="col-1"
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+          />
         </q-card-section>
 
         <q-card-section
@@ -71,7 +32,7 @@
         >
           <VesselsToLockingList :vessels="vessels" />
         </q-card-section>
-        <q-card-section>
+        <q-card-section style="max-width: 800px; margin: 0 auto">
           <PrepareForm />
         </q-card-section>
       </q-card>
@@ -106,10 +67,6 @@ const isReady = computed({
     emit('update:modelValue', state)
   }
 })
-
-const direction = ref('Вверх')
-const directionOptions = ref(['Вверх', 'Вниз'])
-const maximizedToggle = ref(true)
 
 const vessels = ref([])
 </script>
