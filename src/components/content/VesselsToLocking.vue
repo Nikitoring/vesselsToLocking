@@ -6,15 +6,16 @@
     >
       Суда шлюзования
     </div>
-    <VesselsToLockingList :vessels="vessels" />
+    <VesselsToLockingList :vessels="vesselsToLocking" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import VesselsToLockingList from './VesselsToLockingList.vue'
+import { useVesselsToLockingsStore } from 'src/stores/vesselsPrepareToLocking'
+import { storeToRefs } from 'pinia'
 
-const vessels = ref([])
+const { vesselsToLocking } = storeToRefs(useVesselsToLockingsStore())
 </script>
 
 <style scoped></style>

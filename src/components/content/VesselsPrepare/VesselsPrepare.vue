@@ -30,10 +30,10 @@
           class="q-pa-none"
           style="max-width: 800px; margin: 0 auto"
         >
-          <VesselsToLockingList :vessels="vessels" />
+          <VesselsToLockingList :vessels="vesselsToLocking" />
         </q-card-section>
         <q-card-section style="max-width: 800px; margin: 0 auto">
-          <PrepareForm />
+          <PrepareForm @close="setVessel" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -43,8 +43,13 @@
 <script setup lang="ts">
 import VesselsToLockingList from '../VesselsToLockingList.vue'
 import PrepareForm from './PrepareForm.vue'
+import { useVesselsToLockingsStore } from 'src/stores/vesselsPrepareToLocking'
+import { ref } from 'vue'
+import { IVessel } from 'src/domains/index'
 
-import { ref, computed } from 'vue'
+const vesselsToLocking = ref<IVessel[]>([])
+
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -64,9 +69,11 @@ const isReady = computed({
     return props.modelValue
   },
   set: function (state: boolean) {
+    useVesselsToLockingsStore().addToLocking(vesselsToLocking.value)
     emit('update:modelValue', state)
   }
 })
-
-const vessels = ref([])
+const setVessel = (vessel: IVessel) => {
+  vesselsToLocking.value.push(vessel)
+}
 </script>

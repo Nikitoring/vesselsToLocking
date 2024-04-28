@@ -1,6 +1,6 @@
 <template>
   <q-form
-    @submit="onAdd"
+    @submit="addToLocking"
     @reset="onRemove"
     class="q-gutter-md"
   >
@@ -64,6 +64,7 @@
         color="primary"
         no-caps
         label="Добавить"
+        @click="addToLocking"
       />
 
       <q-btn
@@ -78,36 +79,46 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { IVessel } from 'src/domains/index'
 
-interface IForm {
-  type: string
-  name: string
-  barge: string
-  sediment: number
-  typeName?: string
-  direction?: string
-  newName?: string
-}
 interface IFormElement {
   component: string
-  id: keyof IForm
+  id: keyof IVessel
   props: {
     outlined: boolean
     label: string
     options?: string[]
-    type?: string
+    type?:
+      | 'number'
+      | 'textarea'
+      | 'time'
+      | 'text'
+      | 'password'
+      | 'email'
+      | 'search'
+      | 'tel'
+      | 'file'
+      | 'url'
+      | 'date'
+      | 'datetime-local'
+      | undefined
     step?: number
-    'options-dense': boolean
-    dense: boolean
+    'options-dense'?: boolean
+    dense?: boolean
   }
 }
-const form = ref<IForm>({
+
+const emit = defineEmits<{
+  (e: 'close', vessel: IVessel): void
+}>()
+
+const form = ref<IVessel>({
   direction: 'Вверх',
   type: '',
   name: '',
   barge: 'Без Барж',
   sediment: 0,
-  typeName: '',
+  typeName: 'name',
   newName: ''
 })
 const formConstructor = ref<IFormElement[]>([
@@ -162,9 +173,9 @@ const formConstructor = ref<IFormElement[]>([
       outlined: true,
       label: 'Осадка',
       dense: true,
-      'options-dense': true
-      // type: 'number'
-      // step: 0.01
+      'options-dense': true,
+      type: 'number',
+      step: 0.01
     }
   }
 ])
@@ -175,9 +186,16 @@ const typeNameOptions = [
 const onRemove = () => {
   console.log('reset')
 }
-const onAdd = () => {
-  console.log('submit')
+const addToLocking = () => {
+  const vessel: { [key: string]: any } = {}
+  Object.entries(form.value).forEach(([key, value]) => {
+    if (key === 'newName' && value) {
+      vessel.name = value
+    } else {
+      vessel[key] = value
+    }
+  })
+
+  emit('close', vessel)
 }
 </script>
-
-<style scoped></style>
