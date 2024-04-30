@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import VesselsToLockingList from '../VesselsToLockingList.vue'
 import PrepareForm from './PrepareForm.vue'
-import { useVesselsToLockingsStore } from 'src/stores/vesselsPrepareToLocking'
+import { useVesselsToLockingStore } from 'src/stores/vesselsPrepareToLocking'
 import { ref } from 'vue'
 import { IVessel } from 'src/domains/index'
 
@@ -69,7 +69,7 @@ const isReady = computed({
     return props.modelValue
   },
   set: function (state: boolean) {
-    useVesselsToLockingsStore().addToLocking(vesselsToLocking.value)
+    useVesselsToLockingStore().addToLocking(vesselsToLocking.value, props.lockName)
     emit('update:modelValue', state)
   }
 })

@@ -9,6 +9,8 @@
         no-caps
         color="primary"
         label="Старт"
+        :disable="!disableStart"
+        @click="startLocking(props.lockName)"
       />
       <q-btn
         outline
@@ -30,6 +32,7 @@
         no-caps
         color="primary"
         label="Редактировать"
+        :disable="!disableStart"
       />
     </div>
   </div>
@@ -41,9 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import VesselsPrepare from './VesselsPrepare/VesselsPrepare.vue'
-
+import { useVesselsToLockingStore } from 'src/stores/vesselsPrepareToLocking'
+import { useVesselsLocking } from 'src/stores/vesselsLocking'
+const { vesselsToLocking } = storeToRefs(useVesselsToLockingStore())
+const { startLocking } = useVesselsLocking()
 const props = defineProps({
   lockName: {
     type: String,
@@ -52,6 +59,9 @@ const props = defineProps({
 })
 
 const isPrepare = ref(false)
+const disableStart = computed(() => {
+  return props.lockName && vesselsToLocking.value[props.lockName] && vesselsToLocking.value[props.lockName].length
+})
 </script>
 
 <style scoped></style>

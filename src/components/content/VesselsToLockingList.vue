@@ -1,12 +1,14 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      style="height: 200px"
       :rows="props.vessels"
       :columns="columns"
       row-key="name"
       flat
       bordered
       separator="cell"
+      hide-pagination
     >
       <template #no-data>
         <div class="full-width row flex-center text-accent q-gutter-sm">

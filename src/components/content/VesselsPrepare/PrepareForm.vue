@@ -187,7 +187,7 @@ const onRemove = () => {
   console.log('reset')
 }
 const addToLocking = () => {
-  const vessel: { [key: string]: any } = {}
+  const vessel: { [key: string]: string | null | undefined | number } = {}
   Object.entries(form.value).forEach(([key, value]) => {
     if (key === 'newName' && value) {
       vessel.name = value
